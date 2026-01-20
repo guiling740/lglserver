@@ -11,12 +11,14 @@ import { UserModule } from './user/user.module';
     ConfigModule.forRoot({
       isGlobal: true, // 设置为全局配置，这样在其他模块中可以直接使用ConfigService而不需要再次导入。
     }),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
+        uri:
+          configService.get<string>('MONGODB_URI') ||
+          'mongodb://localhost:27017/wwzhidao',
       }),
     }),
     UserModule,

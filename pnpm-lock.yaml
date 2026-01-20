@@ -17,6 +17,9 @@ importers:
       '@nestjs/core':
         specifier: ^11.0.1
         version: 11.1.12(@nestjs/common@11.1.12(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.12)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/mongoose':
+        specifier: ^11.0.4
+        version: 11.0.4(@nestjs/common@11.1.12(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.12)(mongoose@9.1.4)(rxjs@7.8.2)
       '@nestjs/platform-express':
         specifier: ^11.0.1
         version: 11.1.12(@nestjs/common@11.1.12(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.12)
@@ -701,6 +704,14 @@ packages:
         optional: true
       '@nestjs/websockets':
         optional: true
+
+  '@nestjs/mongoose@11.0.4':
+    resolution: {integrity: sha512-LUOlUeSOfbjdIu22QwOmczv2CzJQr9LUBo2mOfbXrGCu2svpr5Hiu71zBFrb/9UC+H8BjGMKbBOq1nEbMF6ZJA==}
+    peerDependencies:
+      '@nestjs/common': ^10.0.0 || ^11.0.0
+      '@nestjs/core': ^10.0.0 || ^11.0.0
+      mongoose: ^7.0.0 || ^8.0.0 || ^9.0.0
+      rxjs: ^7.0.0
 
   '@nestjs/platform-express@11.1.12':
     resolution: {integrity: sha512-GYK/vHI0SGz5m8mxr7v3Urx8b9t78Cf/dj5aJMZlGd9/1D9OI1hAl00BaphjEXINUJ/BQLxIlF2zUjrYsd6enQ==}
@@ -3845,6 +3856,13 @@ snapshots:
       uid: 2.0.2
     optionalDependencies:
       '@nestjs/platform-express': 11.1.12(@nestjs/common@11.1.12(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.12)
+
+  '@nestjs/mongoose@11.0.4(@nestjs/common@11.1.12(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.12)(mongoose@9.1.4)(rxjs@7.8.2)':
+    dependencies:
+      '@nestjs/common': 11.1.12(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/core': 11.1.12(@nestjs/common@11.1.12(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.12)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      mongoose: 9.1.4
+      rxjs: 7.8.2
 
   '@nestjs/platform-express@11.1.12(@nestjs/common@11.1.12(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.12)':
     dependencies:
