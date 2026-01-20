@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolvePackageJsonExports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true, // enable decorate metadata， this is required for NestJS, to use injectable decorator
+    "experimentalDecorators": true, // enable decorator support for TypeScript
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023", // compile to ES2023
+    "sourceMap": true,
+    "outDir": "./dist", // output directory for compiled files
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false
+  }
+}
