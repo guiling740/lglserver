@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { InterviewModule } from './interview/interview.module';
+import { DatabaseModule } from './database/database.module';
 
 // @Module装饰器用于定义一个模块 (NestJS的核心概念之一)
 @Module({
@@ -24,6 +25,7 @@ import { InterviewModule } from './interview/interview.module';
     }),
     UserModule,
     InterviewModule,
+    DatabaseModule,
   ], // 这里可以导入其他模块，例如数据库模块、认证模块等。此处为空表示不依赖其他模块。
   controllers: [AppController], // 用来注册控制器，控制器负责HTTP请求的处理
   providers: [AppService], // 注册提供者，提供者通常是服务了，包含业务逻辑
