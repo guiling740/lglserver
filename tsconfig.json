@@ -10,7 +10,7 @@
     "emitDecoratorMetadata": true, // enable decorate metadata， this is required for NestJS, to use injectable decorator
     "experimentalDecorators": true, // enable decorator support for TypeScript
     "allowSyntheticDefaultImports": true,
-    "target": "ES2023", // compile to ES2023
+    "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist", // output directory for compiled files
     "baseUrl": "./",
@@ -20,6 +20,8 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    
+    "useDefineForClassFields": false
   }
 }
