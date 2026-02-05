@@ -1,54 +1,51 @@
-import { Injectable, Inject } from '@nestjs/common';
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-}
+import {
+  Injectable,
+  Inject,
+  BadRequestException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { User, UserSchema, UserDocument } from './schemas/user.schema';
+import { JwtService } from '@nestjs/jwt';
+import { LoginDto } from './dto/login.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class UserService {
   constructor(
-    @Inject('DATABASE_CONNECTION')
-    private readonly dbconfig: any,
-  ) {
-    console.log('数据库配置', this.dbconfig);
-  }
-  private users: User[] = [
-    { id: 1, name: 'John', email: 'john@example.com' },
-    { id: 2, name: 'Jane', email: 'jane@example.com' },
-    { id: 3, name: 'Doe', email: 'doe@example.com' },
-  ];
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  findAll(): User[] {
-    return this.users;
-  }
+  async login(loginDto: LoginDto) {
+    const { email, password } = loginDto;
 
-  findOne(id: number): User | undefined {
-    return this.users.find((user) => user.id === id);
-  }
+    // 1. 找用户
+    const user = await this.userModel.findOne({ email });
+    if (!user) {
+      throw new UnauthorizedException('邮箱或者密码不正确');
+    }
 
-  create(user: Omit<User, 'id'>): User {
-    const newUser: User = {
-      id: this.users.length + 1,
-      ...user,
+    // 2. 验证密码
+    const isPasswordValid = await user.comparePassword(password);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('邮箱或者密码不正确');
+    }
+
+    // 3. 生成Token
+    const token = this.jwtService.sign({
+      userId: user._id.toString(),
+      username: user.username,
+      email: user.email,
+    });
+
+    // 4. 返回Token 和用户信息
+    const userInfo = user.toObject();
+    delete userInfo.password;
+
+    return {
+      token,
+      user: userInfo,
     };
-    this.users.push(newUser);
-    return newUser;
-  }
-
-  update(id: number, user: Partial<Omit<User, 'id'>>): User | undefined {
-    const index = this.users.findIndex((u) => u.id === id);
-    if (index === -1) return undefined;
-    this.users[index] = { ...this.users[index], ...user };
-    return this.users[index];
-  }
-
-  remove(id: number): boolean {
-    const index = this.users.findIndex((u) => u.id === id);
-    if (index === -1) return false;
-
-    this.users.splice(index, 1);
-    return true;
   }
 }

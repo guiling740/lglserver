@@ -7,13 +7,16 @@ import { UserModule } from './user/user.module';
 import { InterviewModule } from './interview/interview.module';
 import { DatabaseModule } from './database/database.module';
 
+import { JwtModule } from '@nestjs/jwt';
+import { getTokenExpirationSeconds } from './common/utils/jwt.util';
+
 // @Module装饰器用于定义一个模块 (NestJS的核心概念之一)
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true, // 设置为全局配置，这样在其他模块中可以直接使用ConfigService而不需要再次导入。
     }),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -22,6 +25,20 @@ import { DatabaseModule } from './database/database.module';
           configService.get<string>('MONGODB_URI') ||
           'mongodb://localhost:27017/wwzhidao',
       }),
+    }),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => {
+        const expirationSeconds = getTokenExpirationSeconds();
+        return {
+          secret: configService.get<string>('JWT_SECRET') || 'wwzhidao-secret',
+          signOptions: {
+            expiresIn: expirationSeconds,
+          },
+        };
+      },
+      inject: [ConfigService],
+      global: true,
     }),
     UserModule,
     InterviewModule,
