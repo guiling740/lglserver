@@ -7,6 +7,8 @@ import { ConfigService } from '@nestjs/config';
       provide: 'DATABASE_CONNECTION',
       useFactory: (configService: ConfigService) => {
         const dbType = configService.get('DB_TYPE', 'mongodb');
+
+        console.log('start connection moongose');
         if (dbType === 'mongodb') {
           return {
             type: 'mongodb',

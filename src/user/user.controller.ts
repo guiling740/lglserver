@@ -10,8 +10,9 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('login')
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   @Public()
-  async login(@Body loginDto: LoginDto) {
+  async login(@Body() loginDto: LoginDto) {
     const result = await this.userService.login(loginDto);
     return ResponseUtil.success(result, '登录成功');
   }
