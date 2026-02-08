@@ -8,7 +8,7 @@ import { UnauthorizedException } from '@nestjs/common'; // UnauthorizedException
 // 使用@Injectable装饰器，表示该类是可注入的，可以由NestJS的依赖注入系统管理
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
-  // 构造函数接收Reflector实例，用于反射获取装饰器元数据
+  // 构造函数接收Reflector实例，用于反射获取装饰器元数据  ？？ 不太懂
   constructor(private reflector: Reflector) {
     super(); // 调用父类AuthGuard构造函数，传入'jwt'策略
   }
