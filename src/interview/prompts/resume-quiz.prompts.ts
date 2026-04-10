@@ -13,22 +13,22 @@ export const RESUME_QUIZ_PROMPT = `
 
 请根据简历内容，返回一个 JSON 对象，包含以下字段：
 
-{
+{{
   "name": "候选人姓名",
   "years_of_experience": 工作年限（数字）,
   "skills": ["技能1", "技能2", ...],
   "education": "学历背景（比如：本科，计算机科学与技术）",
   "projects": [
-    {
+    {{
       "name": "项目名称",
       "description": "项目简要描述（1句话）",
       "technologies": ["技术1", "技术2"]
-    },
+    }},
     ...
   ],
   "current_position": "当前职位",
   "level": "初级" | "中级" | "高级" | "资深"
-}
+}}
 
 关键要求：
 

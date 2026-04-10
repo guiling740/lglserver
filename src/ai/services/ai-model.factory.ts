@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ChatDeepSeek } from '@langchain/deepseek';
+import { ChatOpenAI } from '@langchain/openai';
 
 /**
  * AI 模型工厂服务
@@ -96,6 +97,52 @@ export class AIModelFactory {
       model: baseModel.model,
       temperature: 0.8, // 较高的 temperature，输出更多样化
       maxTokens: 4000,
+    });
+  }
+
+  createQueuePlusModel(): ChatOpenAI {
+    const apiKey = this.configService.get<string>('QUEUE_PLUS_API_KEY');
+    const baseURL = this.configService.get<string>('QUEUE_PLUS_BASE_URL') || 'https://api.queue.plus/v1';
+
+    this.logger.log('QUEUE_PLUS_BASE_URL', baseURL);
+    if (!apiKey) {
+      this.logger.warn('QUEUE_PLUS_API_KEY 不存在');
+    }
+
+    return new ChatOpenAI({
+      apiKey: apiKey || 'dummy-key',
+      model: this.configService.get<string>('QUEUE_PLUS_MODEL') || 'qwen2.5-72b-instruct',
+      temperature: Number(this.configService.get<string>('QUEUE_PLUS_TEMPERATURE')) || 0.7,
+      maxTokens: Number(this.configService.get<string>('QUEUE_PLUS_MAX_TOKENS')) || 4000,
+      configuration: {
+        baseURL,
+      },
+    });
+  }
+
+  createQueuePlusStableModel(): ChatOpenAI {
+    const baseModel = this.createQueuePlusModel();
+    return new ChatOpenAI({
+      apiKey: this.configService.get<string>('QUEUE_PLUS_API_KEY') || 'dummy-key',
+      model: baseModel.model,
+      temperature: 0.3,
+      maxTokens: 4000,
+      configuration: {
+        baseURL: this.configService.get<string>('QUEUE_PLUS_BASE_URL') || 'https://api.queue.plus/v1',
+      },
+    });
+  }
+
+  createQueuePlusCreativeModel(): ChatOpenAI {
+    const baseModel = this.createQueuePlusModel();
+    return new ChatOpenAI({
+      apiKey: this.configService.get<string>('QUEUE_PLUS_API_KEY') || 'dummy-key',
+      model: baseModel.model,
+      temperature: 0.8,
+      maxTokens: 4000,
+      configuration: {
+        baseURL: this.configService.get<string>('QUEUE_PLUS_BASE_URL') || 'https://api.queue.plus/v1',
+      },
     });
   }
 }
