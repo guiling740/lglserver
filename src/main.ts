@@ -7,7 +7,11 @@ dotenv.config();
 async function bootstrap() {
   // 创建Nest应用实例，传入AppModule模块
   const app = await NestFactory.create(AppModule);
-  // 监听指定端口，默认3000端口
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
   await app.listen(process.env.PORT ?? 3000);
 }
 
