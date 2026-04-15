@@ -29,7 +29,7 @@ export class StartMockInterviewDto {
   })
   @IsEnum(MockInterviewType, { message: '面试类型无效' })
   @IsNotEmpty({ message: '面试类型不能为空' })
-  interviewType?: MockInterviewType;
+  interviewType: MockInterviewType;
 
   @ApiProperty({
     description: '候选人姓名（可选）',

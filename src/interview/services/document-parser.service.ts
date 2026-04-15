@@ -25,6 +25,12 @@ export class DocumentParserService {
    * @param url 文件 URL（阿里云 OSS 等）
    * @returns 解析后的文本内容
    */
+  /**
+   * 从URL解析文档内容
+   *
+   * @param url 文档的URL地址
+   * @returns 返回解析后的文档文本内容
+   */
   async parseDocumentFromUrl(url: string): Promise<string> {
     try {
       this.logger.log(`开始解析文档: ${url}`);
